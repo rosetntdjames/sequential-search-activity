@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequential Search Activity</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f0e8;
+            --card: #fefcf7;
+            --ink: #1a1410;
+            --muted: #6b5f52;
+            --accent: #c0392b;
+            --accent2: #2c5f8a;
+            --border: #d6cfc4;
+            --correct: #1d7a3d;
+            --correct-bg: #eaf6ee;
+            --wrong: #c0392b;
+            --wrong-bg: #fdf0ef;
+            --tag-bg: #e8e0d4;
+            --line: #d0c9be;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            min-height: 100vh;
+            padding: 40px 24px 80px;
+        }
+
+        .page {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        header {
+            border-bottom: 2px solid var(--ink);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .label {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            line-height: 1.1;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin: 24px 0 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        .progress-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        .question-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 32px 32px 28px;
+            margin-bottom: 24px;
+            transition: border-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent2);
+        }
+
+        .question-card.answered-correct::before {
+            background: var(--correct);
+        }
+
+        .question-card.answered-wrong::before {
+            background: var(--wrong);
+        }
+
+        .q-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .q-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--accent);
+            line-height: 1;
+            min-width: 36px;
+        }
+
+        .q-type-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: var(--tag-bg);
+            color: var(--muted);
+            padding: 3px 8px;
+            border-radius: 2px;
+        }
+
+        .q-text {
+            font-size: 16px;
+            line-height: 1.65;
+            color: var(--ink);
+            margin-bottom: 20px;
+        }
+
+        .q-text strong {
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        /* Array visualization */
+        .array-vis {
+            display: flex;
+            gap: 2px;
+            margin: 16px 0;
+            flex-wrap: wrap;
+        }
+
+        .array-cell {
+            width: 44px;
+            height: 44px;
+            border: 1.5px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'DM Mono', monospace;
+            font-size: 14px;
+            font-weight: 500;
+            background: var(--card);
+            border-radius: 2px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .array-cell .idx {
+            font-size: 9px;
+            font-weight: 400;
+            color: var(--muted);
+            position: absolute;
+            bottom: 3px;
+        }
+
+        .array-cell.highlight {
+            background: #fff3cd;
+            border-color: #e6a817;
+            transform: scale(1.08);
+        }
+
+        .array-cell.found {
+            background: var(--correct-bg);
+            border-color: var(--correct);
+            color: var(--correct);
+        }
+
+        .array-cell.checked {
+            background: #f0efeb;
+            color: var(--muted);
+        }
+
+        /* Inputs */
+        textarea,
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            color: var(--ink);
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: 3px;
+            padding: 12px 14px;
+            resize: none;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus,
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: var(--accent2);
+        }
+
+        /* Code block */
+        .code-block {
+            background: #1e1a16;
+            border-radius: 4px;
+            padding: 20px 22px;
+            margin: 16px 0;
+            font-family: 'DM Mono', monospace;
+            font-size: 13.5px;
+            line-height: 2;
+            color: #c9c0b0;
+            overflow-x: auto;
+        }
+
+        .code-block .kw {
+            color: #e08060;
+        }
+
+        .code-block .ty {
+            color: #7ec8a0;
+        }
+
+        .code-block .cm {
+            color: #6a6258;
+            font-style: italic;
+        }
+
+        .code-block .num {
+            color: #b8d4f0;
+        }
+
+        .code-block .blank-wrap {
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+        }
+
+        .code-blank {
+            display: inline-block;
+            font-family: 'DM Mono', monospace;
+            font-size: 13px;
+            background: #2e2820;
+            border: 1.5px solid #5a4e40;
+            border-radius: 3px;
+            color: #f0e8d8;
+            padding: 1px 8px;
+            min-width: 90px;
+            outline: none;
+            transition: border-color 0.2s;
+            vertical-align: middle;
+        }
+
+        .code-blank:focus {
+            border-color: #c0a060;
+        }
+
+        .code-blank.blank-correct {
+            border-color: #4a9a60;
+            background: #1a2e20;
+            color: #7ec8a0;
+        }
+
+        .code-blank.blank-wrong {
+            border-color: #c03030;
+            background: #2e1a1a;
+            color: #e08060;
+        }
+
+        /* Steps (scenario) */
+        .steps-input {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .step-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-row span {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: var(--muted);
+            min-width: 56px;
+        }
+
+        .step-row input[type="text"] {
+            flex: 1;
+        }
+
+        /* Submit button */
+        .check-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 10px 22px;
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            background: var(--ink);
+            color: #fefcf7;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .check-btn:hover {
+            opacity: 0.82;
+        }
+
+        .check-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        /* Feedback */
+        .feedback {
+            display: none;
+            margin-top: 16px;
+            padding: 14px 16px;
+            border-radius: 3px;
+            font-size: 14px;
+            line-height: 1.6;
+            border-left: 3px solid;
+        }
+
+        .feedback.correct {
+            background: var(--correct-bg);
+            border-color: var(--correct);
+            color: #145228;
+            display: block;
+        }
+
+        .feedback.wrong {
+            background: var(--wrong-bg);
+            border-color: var(--wrong);
+            color: #7a1e1e;
+            display: block;
+        }
+
+        .feedback strong {
+            font-weight: 500;
+        }
+
+        /* Score panel */
+        .score-panel {
+            display: none;
+            background: var(--ink);
+            color: var(--card);
+            border-radius: 4px;
+            padding: 36px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .score-panel.visible {
+            display: block;
+        }
+
+        .score-panel .big {
+            font-family: 'Playfair Display', serif;
+            font-size: 64px;
+            color: #f5f0e8;
+            line-height: 1;
+        }
+
+        .score-panel .out-of {
+            font-family: 'DM Mono', monospace;
+            font-size: 13px;
+            color: #a09880;
+            margin-top: 6px;
+            letter-spacing: 0.06em;
+        }
+
+        .score-panel .remark {
+            font-size: 16px;
+            color: #d6cfc4;
+            margin-top: 16px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 6px 0 14px;
+        }
+
+        .answer-key {
+            margin-top: 48px;
+            border-top: 2px solid var(--ink);
+            padding-top: 28px;
+        }
+
+        .answer-key h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .ak-item {
+            margin-bottom: 18px;
+            padding-left: 16px;
+            border-left: 2px solid var(--border);
+        }
+
+        .ak-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+        }
+
+        .ak-answer {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--ink);
+        }
+
+        .ak-answer strong {
+            font-weight: 500;
+            color: var(--correct);
+        }
+
+        .note {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <header>
+            <div class="label">Activity · Algorithms</div>
+            <h1>Sequential Search</h1>
+            <p class="subtitle">Answer all 5 questions. Read each one carefully before writing your answer.</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+            </div>
+            <div class="progress-label" id="progress-label">0 of 5 answered</div>
+        </header>
+
+        <!-- Q1: Short exact answer -->
+        <div class="question-card" id="card-1">
+            <div class="q-meta">
+                <div class="q-number">01</div>
+                <div class="q-type-tag">Short Exact Answer</div>
+            </div>
+            <p class="q-text">
+                Use the array below to answer the three questions. You are searching for the value <strong>41</strong>.
+            </p>
+            <div class="array-vis">
+                <div class="array-cell">7<span class="idx">0</span></div>
+                <div class="array-cell">19<span class="idx">1</span></div>
+                <div class="array-cell">41<span class="idx">2</span></div>
+                <div class="array-cell">88<span class="idx">3</span></div>
+                <div class="array-cell">3<span class="idx">4</span></div>
+                <div class="array-cell">55<span class="idx">5</span></div>
+            </div>
+            <div class="steps-input" style="margin-top:14px">
+                <div class="step-row"><span>(a)</span><input type="text" id="q1a"
+                        placeholder="How many comparisons are made before finding 41?"></div>
+                <div class="step-row"><span>(b)</span><input type="text" id="q1b"
+                        placeholder="At which index is 41 found?"></div>
+                <div class="step-row"><span>(c)</span><input type="text" id="q1c"
+                        placeholder="Is this the best case, worst case, or average case?"></div>
+            </div>
+            <button class="check-btn" onclick="checkQ1()">Check Answer</button>
+            <div class="feedback" id="fb1"></div>
+        </div>
+
+        <!-- Q2: Code fill-in-the-blank -->
+        <div class="question-card" id="card-2">
+            <div class="q-meta">
+                <div class="q-number">02</div>
+                <div class="q-type-tag">Code · Fill in the Blanks</div>
+            </div>
+            <p class="q-text">
+                The C function below implements a sequential search. Four parts have been removed.
+                Fill in each blank so that the function works correctly.
+            </p>
+            <div class="code-block">
+                <span class="ty">int</span> sequentialSearch(<span class="ty">int</span> arr[], <span
+                    class="ty">int</span> n, <span class="ty">int</span> target) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="ty">int</span> i = <span
+                    class="num">0</span>; i <span class="blank-wrap">&lt; <input class="code-blank" id="q2b1"
+                        placeholder="___" size="6" spellcheck="false"></span>; i++) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (arr[i] <span
+                    class="blank-wrap">== <input class="code-blank" id="q2b2" placeholder="___" size="8"
+                        spellcheck="false"></span>) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span>
+                <input class="code-blank" id="q2b3" placeholder="___" size="6" spellcheck="false">;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <input class="code-blank" id="q2b4"
+                    placeholder="___" size="6" spellcheck="false">;<br>
+                }
+            </div>
+            <p class="note">Blanks: (1) loop condition bound &nbsp;·&nbsp; (2) comparison value &nbsp;·&nbsp; (3) what
+                to return on match &nbsp;·&nbsp; (4) what to return when not found</p>
+            <button class="check-btn" onclick="checkQ2()">Check Answer</button>
+            <div class="feedback" id="fb2"></div>
+        </div>
+
+        <!-- Q3: Code fill-in-the-blank (caller side) -->
+        <div class="question-card" id="card-3">
+            <div class="q-meta">
+                <div class="q-number">03</div>
+                <div class="q-type-tag">Code · Fill in the Blanks</div>
+            </div>
+            <p class="q-text">
+                Below is a <code>main()</code> function that calls <code>sequentialSearch()</code>.
+                Three parts have been removed. Fill in each blank correctly.
+            </p>
+            <div class="code-block">
+                <span class="cm">// Array and its size</span><br>
+                <span class="ty">int</span> arr[] = {<span class="num">4</span>, <span class="num">22</span>, <span
+                    class="num">7</span>, <span class="num">15</span>, <span class="num">30</span>};<br>
+                <span class="ty">int</span> n = <input class="code-blank" id="q3b1" placeholder="___" size="4"
+                    spellcheck="false">;<br>
+                <span class="ty">int</span> target = <span class="num">15</span>;<br><br>
+                <span class="ty">int</span> result = sequentialSearch(<input class="code-blank" id="q3b2"
+                    placeholder="___" size="14" spellcheck="false">, n, target);<br><br>
+                <span class="kw">if</span> (result <input class="code-blank" id="q3b3" placeholder="___" size="5"
+                    spellcheck="false"> -<span class="num">1</span>) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;printf(<span style="color:#a8c88a">"Not found\n"</span>);<br>
+                } <span class="kw">else</span> {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;printf(<span style="color:#a8c88a">"Found at index %d\n"</span>, result);<br>
+                }
+            </div>
+            <p class="note">Blanks: (1) size of the array &nbsp;·&nbsp; (2) first argument passed to the function
+                &nbsp;·&nbsp; (3) comparison operator to check for not found</p>
+            <button class="check-btn" onclick="checkQ3()">Check Answer</button>
+            <div class="feedback" id="fb3"></div>
+        </div>
+
+        <!-- Q4: Short exact answer — best case -->
+        <div class="question-card" id="card-4">
+            <div class="q-meta">
+                <div class="q-number">04</div>
+                <div class="q-type-tag">Short Exact Answer</div>
+            </div>
+            <p class="q-text">
+                The array below is searched for the value <strong>93</strong>.
+            </p>
+            <div class="array-vis">
+                <div class="array-cell">93<span class="idx">0</span></div>
+                <div class="array-cell">12<span class="idx">1</span></div>
+                <div class="array-cell">47<span class="idx">2</span></div>
+                <div class="array-cell">5<span class="idx">3</span></div>
+                <div class="array-cell">61<span class="idx">4</span></div>
+                <div class="array-cell">28<span class="idx">5</span></div>
+                <div class="array-cell">74<span class="idx">6</span></div>
+            </div>
+            <div class="steps-input" style="margin-top:14px">
+                <div class="step-row"><span>(a)</span><input type="text" id="q4a"
+                        placeholder="How many comparisons does the algorithm make?"></div>
+                <div class="step-row"><span>(b)</span><input type="text" id="q4b"
+                        placeholder="At which index was 93 found?"></div>
+                <div class="step-row"><span>(c)</span><input type="text" id="q4c"
+                        placeholder="Best case or worst case? (type one)"></div>
+            </div>
+            <button class="check-btn" onclick="checkQ4()">Check Answer</button>
+            <div class="feedback" id="fb4"></div>
+        </div>
+
+        <!-- Q5: Fill in the blank / short computation -->
+        <div class="question-card" id="card-5">
+            <div class="q-meta">
+                <div class="q-number">05</div>
+                <div class="q-type-tag">Problem Solving</div>
+            </div>
+            <p class="q-text">
+                The array below is searched using sequential search for the value <strong>99</strong>, which does
+                <em>not exist</em> in the array.
+            </p>
+            <div class="array-vis">
+                <div class="array-cell">3<span class="idx">0</span></div>
+                <div class="array-cell">17<span class="idx">1</span></div>
+                <div class="array-cell">42<span class="idx">2</span></div>
+                <div class="array-cell">56<span class="idx">3</span></div>
+                <div class="array-cell">71<span class="idx">4</span></div>
+            </div>
+            <p class="q-text" style="margin-top:12px">
+                (a) How many comparisons does the algorithm make?<br>
+                (b) How many comparisons would be made in the <em>best case</em> for this same array?<br>
+                (c) Using Big-O notation, how do we describe the worst-case time complexity of sequential search in
+                general, where <em>n</em> is the number of elements?
+            </p>
+            <div class="steps-input">
+                <div class="step-row"><span>(a)</span><input type="text" id="q5a" placeholder="Number of comparisons">
+                </div>
+                <div class="step-row"><span>(b)</span><input type="text" id="q5b"
+                        placeholder="How many comparisons in the best case for this same array?"></div>
+                <div class="step-row"><span>(c)</span><input type="text" id="q5c" placeholder="Big-O notation"></div>
+            </div>
+            <button class="check-btn" onclick="checkQ5()">Check Answer</button>
+            <div class="feedback" id="fb5"></div>
+        </div>
+
+        <!-- Score -->
+        <div class="score-panel" id="score-panel">
+            <div class="label" style="color:#a09880">Final Score</div>
+            <div class="big" id="score-display">0</div>
+            <div class="out-of">out of 5</div>
+            <div class="remark" id="score-remark"></div>
+        </div>
+
+        <!-- Answer Key -->
+        <div class="answer-key">
+            <h2>Answer Key</h2>
+
+            <div class="ak-item">
+                <div class="ak-num">Question 01 — Short Exact Answer</div>
+                <div class="ak-answer">
+                    (a) <strong>3</strong><br>
+                    (b) <strong>2</strong><br>
+                    (c) <strong>average case</strong>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="ak-item">
+                <div class="ak-num">Question 02 — Code · Fill in the Blanks</div>
+                <div class="ak-answer">
+                    (1) <strong>n</strong><br>
+                    (2) <strong>target</strong><br>
+                    (3) <strong>i</strong><br>
+                    (4) <strong>-1</strong>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="ak-item">
+                <div class="ak-num">Question 03 — Code · Fill in the Blanks</div>
+                <div class="ak-answer">
+                    (1) <strong>5</strong><br>
+                    (2) <strong>arr</strong><br>
+                    (3) <strong>==</strong>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="ak-item">
+                <div class="ak-num">Question 04 — Short Exact Answer</div>
+                <div class="ak-answer">
+                    (a) <strong>1</strong><br>
+                    (b) <strong>0</strong><br>
+                    (c) <strong>best case</strong>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="ak-item">
+                <div class="ak-num">Question 05 — Problem Solving</div>
+                <div class="ak-answer">
+                    (a) <strong>5</strong><br>
+                    (b) <strong>1</strong><br>
+                    (c) <strong>O(n)</strong>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        let answered = {};
+        let scores = {};
+
+        function updateProgress() {
+            const count = Object.keys(answered).length;
+            document.getElementById('progress-fill').style.width = (count / 5 * 100) + '%';
+            document.getElementById('progress-label').textContent = count + ' of 5 answered';
+            if (count === 5) showScore();
+        }
+
+        function showFeedback(id, correct, msg) {
+            const fb = document.getElementById('fb' + id);
+            const card = document.getElementById('card-' + id);
+            fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+            fb.innerHTML = msg;
+            card.className = 'question-card ' + (correct ? 'answered-correct' : 'answered-wrong');
+            answered[id] = true;
+            scores[id] = correct ? 1 : 0;
+            updateProgress();
+        }
+
+
+        function checkQ1() {
+            const a = (document.getElementById('q1a').value || '').trim();
+            const b = (document.getElementById('q1b').value || '').trim();
+            const c = (document.getElementById('q1c').value || '').trim();
+            const aOk = a === '3';
+            const bOk = b === '2';
+            const cOk = c === 'average case' || c === 'average';
+            const allOk = aOk && bOk && cOk;
+            showFeedback(1, allOk,
+                allOk
+                    ? '<strong>All correct!</strong> The algorithm checks index 0 (7), index 1 (19), index 2 (41) — match! That is 3 comparisons. Found at index 2. Not best, not worst — this is the average case.'
+                    : `<strong>Check each part:</strong><br>
+           (a) ${aOk ? '&#10003; 3 comparisons' : '&#10007; Should be <strong>3</strong> — the algorithm checks indices 0, 1, and 2 before finding 41'}<br>
+           (b) ${bOk ? '&#10003; Index 2' : '&#10007; Should be <strong>2</strong> — 41 is the third element, at index 2 (remember: arrays start at 0)'}<br>
+           (c) ${cOk ? '&#10003; Average case' : '&#10007; Should be <strong>average case</strong> — the target is neither at the very start (best) nor missing/at the end (worst), so this falls in between'}`
+            );
+        }
+
+        function checkQ2() {
+            const b1 = (document.getElementById('q2b1').value || '').trim().toLowerCase();
+            const b2 = (document.getElementById('q2b2').value || '').trim().toLowerCase();
+            const b3 = (document.getElementById('q2b3').value || '').trim().toLowerCase();
+            const b4 = (document.getElementById('q2b4').value || '').trim().toLowerCase();
+            const ok1 = b1 === 'n';
+            const ok2 = b2 === 'target';
+            const ok3 = b3 === 'i';
+            const ok4 = b4 === '-1';
+            const allOk = ok1 && ok2 && ok3 && ok4;
+            ['q2b1', 'q2b2', 'q2b3', 'q2b4'].forEach((id, idx) => {
+                const ok = [ok1, ok2, ok3, ok4][idx];
+                document.getElementById(id).className = 'code-blank ' + (ok ? 'blank-correct' : 'blank-wrong');
+            });
+            showFeedback(2, allOk,
+                allOk
+                    ? '<strong>All four correct!</strong> The function loops from 0 to n, compares each element to target, returns the index i on a match, and returns −1 if nothing is found.'
+                    : `<strong>Check each blank:</strong><br>
+           (1) Loop bound: ${ok1 ? '✓ <strong>n</strong>' : '✗ should be <strong>n</strong> — the array has n elements, so the loop runs n times'}<br>
+           (2) Comparison: ${ok2 ? '✓ <strong>target</strong>' : '✗ should be <strong>target</strong> — you are checking if arr[i] equals the value you are searching for'}<br>
+           (3) Return on match: ${ok3 ? '✓ <strong>i</strong>' : '✗ should be <strong>i</strong> — return the current index so the caller knows where the value was found'}<br>
+           (4) Return if not found: ${ok4 ? '✓ <strong>-1</strong>' : '✗ should be <strong>-1</strong> — a common convention to signal the value was not in the array'}`
+            );
+        }
+
+        function checkQ3() {
+            const b1 = (document.getElementById('q3b1').value || '').trim();
+            const b2 = (document.getElementById('q3b2').value || '').trim().toLowerCase();
+            const b3 = (document.getElementById('q3b3').value || '').trim();
+            const ok1 = b1 === '5';
+            const ok2 = b2 === 'arr';
+            const ok3 = b3 === '==' || b3 === '==';
+            const allOk = ok1 && ok2 && ok3;
+            ['q3b1', 'q3b2', 'q3b3'].forEach((id, idx) => {
+                const ok = [ok1, ok2, ok3][idx];
+                document.getElementById(id).className = 'code-blank ' + (ok ? 'blank-correct' : 'blank-wrong');
+            });
+            showFeedback(3, allOk,
+                allOk
+                    ? '<strong>All three correct!</strong> The array has 5 elements so n = 5. The array variable arr is passed as the first argument. The operator == checks if result equals -1, meaning not found.'
+                    : `<strong>Check each blank:</strong><br>
+           (1) n = ${ok1 ? '&#10003; <strong>5</strong>' : '&#10007; should be <strong>5</strong> — count the elements in arr[]: there are 5'}<br>
+           (2) First argument: ${ok2 ? '&#10003; <strong>arr</strong>' : '&#10007; should be <strong>arr</strong> — you pass the array itself as the first argument'}<br>
+           (3) Operator: ${ok3 ? '&#10003; <strong>==</strong>' : '&#10007; should be <strong>==</strong> — we are checking if result is equal to -1, so we use the equality operator'}`
+            );
+        }
+
+        function checkQ4() {
+            const a = (document.getElementById('q4a').value || '').trim();
+            const b = (document.getElementById('q4b').value || '').trim();
+            const c = (document.getElementById('q4c').value || '').trim().toLowerCase();
+            const aOk = a === '1';
+            const bOk = b === '0' || b.toLowerCase() === 'index 0';
+            const cOk = c === 'best case' || c === 'best-case' || c === 'best';
+            const allOk = aOk && bOk && cOk;
+            showFeedback(4, allOk,
+                allOk
+                    ? '<strong>All correct!</strong> The algorithm checks index 0 immediately and finds 93 — only 1 comparison, at index 0. Finding the target on the very first check is the best case.'
+                    : `<strong>Check each part:</strong><br>
+           (a) ${aOk ? '&#10003; 1 comparison' : '&#10007; Should be <strong>1</strong> — 93 is at index 0, the very first element checked'}<br>
+           (b) ${bOk ? '&#10003; Index 0' : '&#10007; Should be <strong>0</strong> — 93 is the very first element, so it sits at index 0'}<br>
+           (c) ${cOk ? '&#10003; Best case' : '&#10007; Should be <strong>best case</strong> — finding the target on the first comparison is the least work the algorithm can ever do'}`
+            );
+        }
+
+        function checkQ5() {
+            const a = (document.getElementById('q5a').value || '').trim();
+            const b = (document.getElementById('q5b').value || '').trim().toLowerCase();
+            const c = (document.getElementById('q5c').value || '').trim().toLowerCase().replace(/\s/g, '');
+            const aOk = a === '5';
+            const bOk = b === '1';
+            const cOk = c.includes('o(n)') || c === 'on';
+            const ok = aOk && bOk && cOk;
+            showFeedback(5, ok,
+                ok
+                    ? '<strong>All three correct!</strong> (a) 5 comparisons — all elements checked since 99 is missing. (b) Best case is 1 comparison — if 99 were at index 0. (c) O(n) — linear time in the worst case.'
+                    : `<strong>Check your answers:</strong><br>
+           (a) ${aOk ? '&#10003; 5 comparisons' : '&#10007; Should be <strong>5</strong> — 99 is not in the array so every element is checked once'}<br>
+           (b) ${bOk ? '&#10003; 1 comparison' : '&#10007; Should be <strong>1</strong> — best case is when the target is at index 0, found on the very first check'}<br>
+           (c) ${cOk ? '&#10003; O(n)' : '&#10007; Should be <strong>O(n)</strong> — linear, because in the worst case we touch every element once'}`
+            );
+        }
+
+        function showScore() {
+            const total = Object.values(scores).reduce((a, b) => a + b, 0);
+            const remarks = [
+                'Keep going — review the key and try again!',
+                'A start! Re-read the feedback on each question.',
+                'Getting there. Two more and you\'ve got it.',
+                'Good work! One more to go.',
+                'Almost perfect — so close!',
+                'Perfect score. Well done!'
+            ];
+            document.getElementById('score-display').textContent = total;
+            document.getElementById('score-remark').textContent = remarks[total];
+            document.getElementById('score-panel').classList.add('visible');
+        }
+    </script>
+</body>
+
+</html>

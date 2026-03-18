@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sequential Search Activity</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap"
         rel="stylesheet">
@@ -429,6 +430,16 @@
             margin-top: 48px;
             border-top: 2px solid var(--ink);
             padding-top: 28px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(14px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
+        }
+
+        .answer-key.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
         }
 
         .answer-key h2 {
@@ -504,14 +515,16 @@
             </div>
             <div class="steps-input" style="margin-top:14px">
                 <div class="step-row"><span>(a)</span><input type="text" id="q1a"
+                        aria-label="(a) How many comparisons are made before finding 41"
                         placeholder="How many comparisons are made before finding 41?"></div>
                 <div class="step-row"><span>(b)</span><input type="text" id="q1b"
-                        placeholder="At which index is 41 found?"></div>
+                        aria-label="(b) At which index is 41 found" placeholder="At which index is 41 found?"></div>
                 <div class="step-row"><span>(c)</span><input type="text" id="q1c"
+                        aria-label="(c) Best case, worst case, or average case"
                         placeholder="Is this the best case, worst case, or average case?"></div>
             </div>
-            <button class="check-btn" onclick="checkQ1()">Check Answer</button>
-            <div class="feedback" id="fb1"></div>
+
+            <div class="feedback" id="fb1" role="status" aria-live="polite"></div>
         </div>
 
         <!-- Q2: Code fill-in-the-blank -->
@@ -521,7 +534,7 @@
                 <div class="q-type-tag">Code · Fill in the Blanks</div>
             </div>
             <p class="q-text">
-                The C function below implements a sequential search. Four parts have been removed.
+                The C function below implements a sequential search. Three parts have been removed.
                 Fill in each blank so that the function works correctly.
             </p>
             <div class="code-block">
@@ -529,22 +542,23 @@
                     class="ty">int</span> n, <span class="ty">int</span> target) {<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="ty">int</span> i = <span
                     class="num">0</span>; i <span class="blank-wrap">&lt; <input class="code-blank" id="q2b1"
-                        placeholder="___" size="6" spellcheck="false"></span>; i++) {<br>
+                        aria-label="Blank 1: loop condition bound" placeholder="___" size="6"
+                        spellcheck="false"></span>; i++) {<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (arr[i] <span
-                    class="blank-wrap">== <input class="code-blank" id="q2b2" placeholder="___" size="8"
-                        spellcheck="false"></span>) {<br>
+                    class="blank-wrap">== <input class="code-blank" id="q2b2" aria-label="Blank 2: comparison value"
+                        placeholder="___" size="8" spellcheck="false"></span>) {<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span>
-                <input class="code-blank" id="q2b3" placeholder="___" size="6" spellcheck="false">;<br>
+                <input class="code-blank" id="q2b3" aria-label="Blank 3: return value on match" placeholder="___"
+                    size="6" spellcheck="false">;<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <input class="code-blank" id="q2b4"
-                    placeholder="___" size="6" spellcheck="false">;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="num">-1</span>;<br>
                 }
             </div>
             <p class="note">Blanks: (1) loop condition bound &nbsp;·&nbsp; (2) comparison value &nbsp;·&nbsp; (3) what
-                to return on match &nbsp;·&nbsp; (4) what to return when not found</p>
-            <button class="check-btn" onclick="checkQ2()">Check Answer</button>
-            <div class="feedback" id="fb2"></div>
+                to return on match</p>
+
+            <div class="feedback" id="fb2" role="status" aria-live="polite"></div>
         </div>
 
         <!-- Q3: Code fill-in-the-blank (caller side) -->
@@ -561,12 +575,14 @@
                 <span class="cm">// Array and its size</span><br>
                 <span class="ty">int</span> arr[] = {<span class="num">4</span>, <span class="num">22</span>, <span
                     class="num">7</span>, <span class="num">15</span>, <span class="num">30</span>};<br>
-                <span class="ty">int</span> n = <input class="code-blank" id="q3b1" placeholder="___" size="4"
-                    spellcheck="false">;<br>
+                <span class="ty">int</span> n = <input class="code-blank" id="q3b1"
+                    aria-label="Blank 1: size of the array" placeholder="___" size="4" spellcheck="false">;<br>
                 <span class="ty">int</span> target = <span class="num">15</span>;<br><br>
                 <span class="ty">int</span> result = sequentialSearch(<input class="code-blank" id="q3b2"
-                    placeholder="___" size="14" spellcheck="false">, n, target);<br><br>
-                <span class="kw">if</span> (result <input class="code-blank" id="q3b3" placeholder="___" size="5"
+                    aria-label="Blank 2: first argument passed to the function" placeholder="___" size="14"
+                    spellcheck="false">, n, target);<br><br>
+                <span class="kw">if</span> (result <input class="code-blank" id="q3b3"
+                    aria-label="Blank 3: comparison operator for not found" placeholder="___" size="5"
                     spellcheck="false"> -<span class="num">1</span>) {<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;printf(<span style="color:#a8c88a">"Not found\n"</span>);<br>
                 } <span class="kw">else</span> {<br>
@@ -575,8 +591,8 @@
             </div>
             <p class="note">Blanks: (1) size of the array &nbsp;·&nbsp; (2) first argument passed to the function
                 &nbsp;·&nbsp; (3) comparison operator to check for not found</p>
-            <button class="check-btn" onclick="checkQ3()">Check Answer</button>
-            <div class="feedback" id="fb3"></div>
+
+            <div class="feedback" id="fb3" role="status" aria-live="polite"></div>
         </div>
 
         <!-- Q4: Short exact answer — best case -->
@@ -599,14 +615,16 @@
             </div>
             <div class="steps-input" style="margin-top:14px">
                 <div class="step-row"><span>(a)</span><input type="text" id="q4a"
+                        aria-label="(a) How many comparisons does the algorithm make"
                         placeholder="How many comparisons does the algorithm make?"></div>
                 <div class="step-row"><span>(b)</span><input type="text" id="q4b"
-                        placeholder="At which index was 93 found?"></div>
+                        aria-label="(b) At which index was 93 found" placeholder="At which index was 93 found?"></div>
                 <div class="step-row"><span>(c)</span><input type="text" id="q4c"
-                        placeholder="Best case or worst case? (type one)"></div>
+                        aria-label="(c) Best case or worst case" placeholder="Best case or worst case? (type one)">
+                </div>
             </div>
-            <button class="check-btn" onclick="checkQ4()">Check Answer</button>
-            <div class="feedback" id="fb4"></div>
+
+            <div class="feedback" id="fb4" role="status" aria-live="polite"></div>
         </div>
 
         <!-- Q5: Fill in the blank / short computation -->
@@ -628,20 +646,28 @@
             </div>
             <p class="q-text" style="margin-top:12px">
                 (a) How many comparisons does the algorithm make?<br>
-                (b) How many comparisons would be made in the <em>best case</em> for this same array?<br>
+                (b) If 99 were at index 0 instead, how many comparisons would be made (<em>best case</em>)?<br>
                 (c) Using Big-O notation, how do we describe the worst-case time complexity of sequential search in
                 general, where <em>n</em> is the number of elements?
             </p>
             <div class="steps-input">
-                <div class="step-row"><span>(a)</span><input type="text" id="q5a" placeholder="Number of comparisons">
+                <div class="step-row"><span>(a)</span><input type="text" id="q5a"
+                        aria-label="(a) Number of comparisons when 99 is missing" placeholder="Number of comparisons">
                 </div>
                 <div class="step-row"><span>(b)</span><input type="text" id="q5b"
-                        placeholder="How many comparisons in the best case for this same array?"></div>
-                <div class="step-row"><span>(c)</span><input type="text" id="q5c" placeholder="Big-O notation"></div>
+                        aria-label="(b) Comparisons in the best case for a 5-element array"
+                        placeholder="Best-case comparisons for a 5-element array"></div>
+                <div class="step-row"><span>(c)</span><input type="text" id="q5c"
+                        aria-label="(c) Big-O worst-case time complexity" placeholder="Big-O notation"></div>
             </div>
-            <button class="check-btn" onclick="checkQ5()">Check Answer</button>
-            <div class="feedback" id="fb5"></div>
+
+            <div class="feedback" id="fb5" role="status" aria-live="polite"></div>
         </div>
+
+        <button class="check-btn" id="submit-all-btn" onclick="checkAll()"
+            style="width:100%;justify-content:center;padding:14px 22px;font-size:13px;margin-bottom:32px;">
+            Submit All Answers
+        </button>
 
         <!-- Score -->
         <div class="score-panel" id="score-panel">
@@ -671,8 +697,7 @@
                 <div class="ak-answer">
                     (1) <strong>n</strong><br>
                     (2) <strong>target</strong><br>
-                    (3) <strong>i</strong><br>
-                    (4) <strong>-1</strong>
+                    (3) <strong>i</strong>
                 </div>
             </div>
 
@@ -724,27 +749,39 @@
             if (count === 5) showScore();
         }
 
-        function showFeedback(id, correct, msg) {
+        function showFeedback(id, score, msg) {
             const fb = document.getElementById('fb' + id);
             const card = document.getElementById('card-' + id);
+            const correct = score === 1;
             fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
             fb.innerHTML = msg;
             card.className = 'question-card ' + (correct ? 'answered-correct' : 'answered-wrong');
             answered[id] = true;
-            scores[id] = correct ? 1 : 0;
+            scores[id] = score;
             updateProgress();
         }
 
+        function checkAll() {
+            document.getElementById('submit-all-btn').disabled = true;
+            checkQ1(); checkQ2(); checkQ3(); checkQ4(); checkQ5();
+            const firstWrong = document.querySelector('.question-card.answered-wrong');
+            if (firstWrong) {
+                firstWrong.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                document.getElementById('score-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
 
         function checkQ1() {
             const a = (document.getElementById('q1a').value || '').trim();
             const b = (document.getElementById('q1b').value || '').trim();
-            const c = (document.getElementById('q1c').value || '').trim();
+            const c = (document.getElementById('q1c').value || '').trim().toLowerCase();
             const aOk = a === '3';
             const bOk = b === '2';
             const cOk = c === 'average case' || c === 'average';
             const allOk = aOk && bOk && cOk;
-            showFeedback(1, allOk,
+            const score = [aOk, bOk, cOk].filter(Boolean).length / 3;
+            showFeedback(1, score,
                 allOk
                     ? '<strong>All correct!</strong> The algorithm checks index 0 (7), index 1 (19), index 2 (41) — match! That is 3 comparisons. Found at index 2. Not best, not worst — this is the average case.'
                     : `<strong>Check each part:</strong><br>
@@ -758,24 +795,22 @@
             const b1 = (document.getElementById('q2b1').value || '').trim().toLowerCase();
             const b2 = (document.getElementById('q2b2').value || '').trim().toLowerCase();
             const b3 = (document.getElementById('q2b3').value || '').trim().toLowerCase();
-            const b4 = (document.getElementById('q2b4').value || '').trim().toLowerCase();
             const ok1 = b1 === 'n';
             const ok2 = b2 === 'target';
             const ok3 = b3 === 'i';
-            const ok4 = b4 === '-1';
-            const allOk = ok1 && ok2 && ok3 && ok4;
-            ['q2b1', 'q2b2', 'q2b3', 'q2b4'].forEach((id, idx) => {
-                const ok = [ok1, ok2, ok3, ok4][idx];
+            const allOk = ok1 && ok2 && ok3;
+            const score = [ok1, ok2, ok3].filter(Boolean).length / 3;
+            ['q2b1', 'q2b2', 'q2b3'].forEach((id, idx) => {
+                const ok = [ok1, ok2, ok3][idx];
                 document.getElementById(id).className = 'code-blank ' + (ok ? 'blank-correct' : 'blank-wrong');
             });
-            showFeedback(2, allOk,
+            showFeedback(2, score,
                 allOk
-                    ? '<strong>All four correct!</strong> The function loops from 0 to n, compares each element to target, returns the index i on a match, and returns −1 if nothing is found.'
+                    ? '<strong>All three correct!</strong> The function loops from 0 to n, compares each element to target, and returns the index i on a match.'
                     : `<strong>Check each blank:</strong><br>
            (1) Loop bound: ${ok1 ? '✓ <strong>n</strong>' : '✗ should be <strong>n</strong> — the array has n elements, so the loop runs n times'}<br>
            (2) Comparison: ${ok2 ? '✓ <strong>target</strong>' : '✗ should be <strong>target</strong> — you are checking if arr[i] equals the value you are searching for'}<br>
-           (3) Return on match: ${ok3 ? '✓ <strong>i</strong>' : '✗ should be <strong>i</strong> — return the current index so the caller knows where the value was found'}<br>
-           (4) Return if not found: ${ok4 ? '✓ <strong>-1</strong>' : '✗ should be <strong>-1</strong> — a common convention to signal the value was not in the array'}`
+           (3) Return on match: ${ok3 ? '✓ <strong>i</strong>' : '✗ should be <strong>i</strong> — return the current index so the caller knows where the value was found'}`
             );
         }
 
@@ -785,13 +820,14 @@
             const b3 = (document.getElementById('q3b3').value || '').trim();
             const ok1 = b1 === '5';
             const ok2 = b2 === 'arr';
-            const ok3 = b3 === '==' || b3 === '==';
+            const ok3 = b3 === '==';
             const allOk = ok1 && ok2 && ok3;
+            const score = [ok1, ok2, ok3].filter(Boolean).length / 3;
             ['q3b1', 'q3b2', 'q3b3'].forEach((id, idx) => {
                 const ok = [ok1, ok2, ok3][idx];
                 document.getElementById(id).className = 'code-blank ' + (ok ? 'blank-correct' : 'blank-wrong');
             });
-            showFeedback(3, allOk,
+            showFeedback(3, score,
                 allOk
                     ? '<strong>All three correct!</strong> The array has 5 elements so n = 5. The array variable arr is passed as the first argument. The operator == checks if result equals -1, meaning not found.'
                     : `<strong>Check each blank:</strong><br>
@@ -809,7 +845,8 @@
             const bOk = b === '0' || b.toLowerCase() === 'index 0';
             const cOk = c === 'best case' || c === 'best-case' || c === 'best';
             const allOk = aOk && bOk && cOk;
-            showFeedback(4, allOk,
+            const score = [aOk, bOk, cOk].filter(Boolean).length / 3;
+            showFeedback(4, score,
                 allOk
                     ? '<strong>All correct!</strong> The algorithm checks index 0 immediately and finds 93 — only 1 comparison, at index 0. Finding the target on the very first check is the best case.'
                     : `<strong>Check each part:</strong><br>
@@ -827,9 +864,10 @@
             const bOk = b === '1';
             const cOk = c.includes('o(n)') || c === 'on';
             const ok = aOk && bOk && cOk;
-            showFeedback(5, ok,
+            const score = [aOk, bOk, cOk].filter(Boolean).length / 3;
+            showFeedback(5, score,
                 ok
-                    ? '<strong>All three correct!</strong> (a) 5 comparisons — all elements checked since 99 is missing. (b) Best case is 1 comparison — if 99 were at index 0. (c) O(n) — linear time in the worst case.'
+                    ? '<strong>All three correct!</strong> (a) 5 comparisons — all elements checked since 99 is missing. (b) Best case is 1 comparison — if the target were at index 0. (c) O(n) — linear time in the worst case.'
                     : `<strong>Check your answers:</strong><br>
            (a) ${aOk ? '&#10003; 5 comparisons' : '&#10007; Should be <strong>5</strong> — 99 is not in the array so every element is checked once'}<br>
            (b) ${bOk ? '&#10003; 1 comparison' : '&#10007; Should be <strong>1</strong> — best case is when the target is at index 0, found on the very first check'}<br>
@@ -839,6 +877,7 @@
 
         function showScore() {
             const total = Object.values(scores).reduce((a, b) => a + b, 0);
+            const rounded = Math.round(total);
             const remarks = [
                 'Keep going — review the key and try again!',
                 'A start! Re-read the feedback on each question.',
@@ -847,11 +886,11 @@
                 'Almost perfect — so close!',
                 'Perfect score. Well done!'
             ];
-            document.getElementById('score-display').textContent = total;
-            document.getElementById('score-remark').textContent = remarks[total];
+            document.getElementById('score-display').textContent = Number.isInteger(total) ? total : total.toFixed(1);
+            document.getElementById('score-remark').textContent = remarks[Math.min(rounded, 5)];
             document.getElementById('score-panel').classList.add('visible');
+            document.querySelector('.answer-key').classList.add('visible');
         }
     </script>
-</body>
 
 </html>

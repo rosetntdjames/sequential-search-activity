@@ -18,12 +18,7 @@
             --accent: #c0392b;
             --accent2: #2c5f8a;
             --border: #d6cfc4;
-            --correct: #1d7a3d;
-            --correct-bg: #eaf6ee;
-            --wrong: #c0392b;
-            --wrong-bg: #fdf0ef;
             --tag-bg: #e8e0d4;
-            --line: #d0c9be;
         }
 
         * {
@@ -73,36 +68,12 @@
             color: var(--muted);
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 4px;
-            background: var(--border);
-            border-radius: 2px;
-            margin: 24px 0 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--accent);
-            border-radius: 2px;
-            transition: width 0.4s ease;
-        }
-
-        .progress-label {
-            font-family: 'DM Mono', monospace;
-            font-size: 11px;
-            color: var(--muted);
-            margin-top: 6px;
-        }
-
         .question-card {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 4px;
             padding: 32px 32px 28px;
             margin-bottom: 24px;
-            transition: border-color 0.2s;
             position: relative;
             overflow: hidden;
         }
@@ -115,14 +86,6 @@
             bottom: 0;
             width: 4px;
             background: var(--accent2);
-        }
-
-        .question-card.answered-correct::before {
-            background: var(--correct);
-        }
-
-        .question-card.answered-wrong::before {
-            background: var(--wrong);
         }
 
         .q-meta {
@@ -184,7 +147,6 @@
             font-weight: 500;
             background: var(--card);
             border-radius: 2px;
-            transition: all 0.3s;
             position: relative;
         }
 
@@ -196,289 +158,28 @@
             bottom: 3px;
         }
 
-        .array-cell.highlight {
-            background: #fff3cd;
-            border-color: #e6a817;
-            transform: scale(1.08);
-        }
-
-        .array-cell.found {
-            background: var(--correct-bg);
-            border-color: var(--correct);
-            color: var(--correct);
-        }
-
-        .array-cell.checked {
-            background: #f0efeb;
-            color: var(--muted);
-        }
-
-        /* Inputs */
-        textarea,
-        input[type="text"],
-        input[type="number"] {
-            width: 100%;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 15px;
-            color: var(--ink);
-            background: var(--bg);
-            border: 1.5px solid var(--border);
-            border-radius: 3px;
-            padding: 12px 14px;
-            resize: none;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        textarea:focus,
-        input[type="text"]:focus,
-        input[type="number"]:focus {
-            border-color: var(--accent2);
-        }
-
-        /* Code block */
-        .code-block {
-            background: #1e1a16;
-            border-radius: 4px;
-            padding: 20px 22px;
-            margin: 16px 0;
-            font-family: 'DM Mono', monospace;
-            font-size: 13.5px;
-            line-height: 2;
-            color: #c9c0b0;
-            overflow-x: auto;
-        }
-
-        .code-block .kw {
-            color: #e08060;
-        }
-
-        .code-block .ty {
-            color: #7ec8a0;
-        }
-
-        .code-block .cm {
-            color: #6a6258;
-            font-style: italic;
-        }
-
-        .code-block .num {
-            color: #b8d4f0;
-        }
-
-        .code-block .blank-wrap {
-            display: inline-flex;
-            align-items: center;
-            vertical-align: middle;
-        }
-
-        .code-blank {
-            display: inline-block;
-            font-family: 'DM Mono', monospace;
-            font-size: 13px;
-            background: #2e2820;
-            border: 1.5px solid #5a4e40;
-            border-radius: 3px;
-            color: #f0e8d8;
-            padding: 1px 8px;
-            min-width: 90px;
-            outline: none;
-            transition: border-color 0.2s;
-            vertical-align: middle;
-        }
-
-        .code-blank:focus {
-            border-color: #c0a060;
-        }
-
-        .code-blank.blank-correct {
-            border-color: #4a9a60;
-            background: #1a2e20;
-            color: #7ec8a0;
-        }
-
-        .code-blank.blank-wrong {
-            border-color: #c03030;
-            background: #2e1a1a;
-            color: #e08060;
-        }
-
-        /* Steps (scenario) */
-        .steps-input {
+        /* Sub-parts list */
+        .parts-list {
+            list-style: none;
+            margin-top: 16px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-        }
-
-        .step-row {
-            display: flex;
-            align-items: center;
             gap: 10px;
         }
 
-        .step-row span {
+        .parts-list li {
+            display: flex;
+            gap: 12px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .parts-list li .part-label {
             font-family: 'DM Mono', monospace;
             font-size: 12px;
             color: var(--muted);
-            min-width: 56px;
-        }
-
-        .step-row input[type="text"] {
-            flex: 1;
-        }
-
-        /* Submit button */
-        .check-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 16px;
-            padding: 10px 22px;
-            font-family: 'DM Mono', monospace;
-            font-size: 12px;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            background: var(--ink);
-            color: #fefcf7;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .check-btn:hover {
-            opacity: 0.82;
-        }
-
-        .check-btn:disabled {
-            opacity: 0.35;
-            cursor: not-allowed;
-        }
-
-        /* Feedback */
-        .feedback {
-            display: none;
-            margin-top: 16px;
-            padding: 14px 16px;
-            border-radius: 3px;
-            font-size: 14px;
-            line-height: 1.6;
-            border-left: 3px solid;
-        }
-
-        .feedback.correct {
-            background: var(--correct-bg);
-            border-color: var(--correct);
-            color: #145228;
-            display: block;
-        }
-
-        .feedback.wrong {
-            background: var(--wrong-bg);
-            border-color: var(--wrong);
-            color: #7a1e1e;
-            display: block;
-        }
-
-        .feedback strong {
-            font-weight: 500;
-        }
-
-        /* Score panel */
-        .score-panel {
-            display: none;
-            background: var(--ink);
-            color: var(--card);
-            border-radius: 4px;
-            padding: 36px;
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .score-panel.visible {
-            display: block;
-        }
-
-        .score-panel .big {
-            font-family: 'Playfair Display', serif;
-            font-size: 64px;
-            color: #f5f0e8;
-            line-height: 1;
-        }
-
-        .score-panel .out-of {
-            font-family: 'DM Mono', monospace;
-            font-size: 13px;
-            color: #a09880;
-            margin-top: 6px;
-            letter-spacing: 0.06em;
-        }
-
-        .score-panel .remark {
-            font-size: 16px;
-            color: #d6cfc4;
-            margin-top: 16px;
-        }
-
-        .divider {
-            border: none;
-            border-top: 1px solid var(--line);
-            margin: 6px 0 14px;
-        }
-
-        .answer-key {
-            margin-top: 48px;
-            border-top: 2px solid var(--ink);
-            padding-top: 28px;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(14px);
-            transition: opacity 0.55s ease, transform 0.55s ease;
-        }
-
-        .answer-key.visible {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-
-        .answer-key h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .ak-item {
-            margin-bottom: 18px;
-            padding-left: 16px;
-            border-left: 2px solid var(--border);
-        }
-
-        .ak-num {
-            font-family: 'DM Mono', monospace;
-            font-size: 11px;
-            text-transform: uppercase;
-            color: var(--muted);
-            letter-spacing: 0.08em;
-            margin-bottom: 4px;
-        }
-
-        .ak-answer {
-            font-size: 14px;
-            line-height: 1.6;
-            color: var(--ink);
-        }
-
-        .ak-answer strong {
-            font-weight: 500;
-            color: var(--correct);
-        }
-
-        .note {
-            font-family: 'DM Mono', monospace;
-            font-size: 11px;
-            color: var(--muted);
-            margin-top: 6px;
+            min-width: 28px;
+            padding-top: 1px;
         }
     </style>
 </head>
@@ -489,409 +190,131 @@
         <header>
             <div class="label">Activity · Algorithms</div>
             <h1>Sequential Search</h1>
-            <p class="subtitle">Answer all 5 questions. Read each one carefully before writing your answer.</p>
+            <p class="subtitle">Answer all 5 questions on paper. Read each one carefully before writing your answer.</p>
             <p class="subtitle" style="margin-top:4px;">by: Dean James Salvacion</p>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-            </div>
-            <div class="progress-label" id="progress-label">0 of 5 answered</div>
         </header>
 
-        <!-- Q1: Short exact answer -->
-        <div class="question-card" id="card-1">
+        <!-- Q1 -->
+        <div class="question-card">
             <div class="q-meta">
                 <div class="q-number">01</div>
-                <div class="q-type-tag">Short Exact Answer</div>
+                <div class="q-type-tag">Calculation · Trace &amp; Cost</div>
             </div>
             <p class="q-text">
-                Use the array below to answer the three questions. You are searching for the value <strong>41</strong>.
+                A sequential search is performed on the array below, looking for the value <strong>62</strong>.
+                Each comparison takes <strong>4 ms</strong> to execute.
             </p>
             <div class="array-vis">
-                <div class="array-cell">7<span class="idx">0</span></div>
-                <div class="array-cell">19<span class="idx">1</span></div>
-                <div class="array-cell">41<span class="idx">2</span></div>
-                <div class="array-cell">88<span class="idx">3</span></div>
-                <div class="array-cell">3<span class="idx">4</span></div>
-                <div class="array-cell">55<span class="idx">5</span></div>
+                <div class="array-cell">11<span class="idx">0</span></div>
+                <div class="array-cell">35<span class="idx">1</span></div>
+                <div class="array-cell">8<span class="idx">2</span></div>
+                <div class="array-cell">62<span class="idx">3</span></div>
+                <div class="array-cell">27<span class="idx">4</span></div>
+                <div class="array-cell">50<span class="idx">5</span></div>
+                <div class="array-cell">91<span class="idx">6</span></div>
+                <div class="array-cell">4<span class="idx">7</span></div>
             </div>
-            <div class="steps-input" style="margin-top:14px">
-                <div class="step-row"><span>(a)</span><input type="text" id="q1a"
-                        aria-label="(a) How many comparisons are made before finding 41"
-                        placeholder="How many comparisons are made before finding 41?"></div>
-                <div class="step-row"><span>(b)</span><input type="text" id="q1b"
-                        aria-label="(b) At which index is 41 found" placeholder="At which index is 41 found?"></div>
-                <div class="step-row"><span>(c)</span><input type="text" id="q1c"
-                        aria-label="(c) Best case, worst case, or average case"
-                        placeholder="Is this the best case, worst case, or average case?"></div>
-            </div>
-
-            <div class="feedback" id="fb1" role="status" aria-live="polite"></div>
+            <ul class="parts-list">
+                <li><span class="part-label">(a)</span> How many comparisons are made to find 62?</li>
+                <li><span class="part-label">(b)</span> What is the total time (in ms) to find 62?</li>
+                <li><span class="part-label">(c)</span> What is the total time (in ms) if 62 were <strong>not</strong> in the array?</li>
+            </ul>
         </div>
 
-        <!-- Q2: Code fill-in-the-blank -->
-        <div class="question-card" id="card-2">
+        <!-- Q2 -->
+        <div class="question-card">
             <div class="q-meta">
                 <div class="q-number">02</div>
-                <div class="q-type-tag">Code · Fill in the Blanks</div>
+                <div class="q-type-tag">Proof · Case Analysis</div>
             </div>
             <p class="q-text">
-                The C function below implements a sequential search. Three parts have been removed.
-                Fill in each blank so that the function works correctly.
-            </p>
-            <div class="code-block">
-                <span class="ty">int</span> sequentialSearch(<span class="ty">int</span> arr[], <span
-                    class="ty">int</span> n, <span class="ty">int</span> target) {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="ty">int</span> i = <span
-                    class="num">0</span>; i <span class="blank-wrap">&lt; <input class="code-blank" id="q2b1"
-                        aria-label="Blank 1: loop condition bound" placeholder="___" size="6"
-                        spellcheck="false"></span>; i++) {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (arr[i] <span
-                    class="blank-wrap">== <input class="code-blank" id="q2b2" aria-label="Blank 2: comparison value"
-                        placeholder="___" size="8" spellcheck="false"></span>) {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span>
-                <input class="code-blank" id="q2b3" aria-label="Blank 3: return value on match" placeholder="___"
-                    size="6" spellcheck="false">;<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="num">-1</span>;<br>
-                }
-            </div>
-            <p class="note">Blanks: (1) loop condition bound &nbsp;·&nbsp; (2) comparison value &nbsp;·&nbsp; (3) what
-                to return on match</p>
-
-            <div class="feedback" id="fb2" role="status" aria-live="polite"></div>
-        </div>
-
-        <!-- Q3: Code fill-in-the-blank (caller side) -->
-        <div class="question-card" id="card-3">
-            <div class="q-meta">
-                <div class="q-number">03</div>
-                <div class="q-type-tag">Code · Fill in the Blanks</div>
-            </div>
-            <p class="q-text">
-                Below is a <code>main()</code> function that calls <code>sequentialSearch()</code>.
-                Three parts have been removed. Fill in each blank correctly.
-            </p>
-            <div class="code-block">
-                <span class="cm">// Array and its size</span><br>
-                <span class="ty">int</span> arr[] = {<span class="num">4</span>, <span class="num">22</span>, <span
-                    class="num">7</span>, <span class="num">15</span>, <span class="num">30</span>};<br>
-                <span class="ty">int</span> n = <input class="code-blank" id="q3b1"
-                    aria-label="Blank 1: size of the array" placeholder="___" size="4" spellcheck="false">;<br>
-                <span class="ty">int</span> target = <span class="num">15</span>;<br><br>
-                <span class="ty">int</span> result = sequentialSearch(<input class="code-blank" id="q3b2"
-                    aria-label="Blank 2: first argument passed to the function" placeholder="___" size="14"
-                    spellcheck="false">, n, target);<br><br>
-                <span class="kw">if</span> (result <input class="code-blank" id="q3b3"
-                    aria-label="Blank 3: comparison operator for not found" placeholder="___" size="5"
-                    spellcheck="false"> -<span class="num">1</span>) {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;printf(<span style="color:#a8c88a">"Not found\n"</span>);<br>
-                } <span class="kw">else</span> {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;printf(<span style="color:#a8c88a">"Found at index %d\n"</span>, result);<br>
-                }
-            </div>
-            <p class="note">Blanks: (1) size of the array &nbsp;·&nbsp; (2) first argument passed to the function
-                &nbsp;·&nbsp; (3) comparison operator to check for not found</p>
-
-            <div class="feedback" id="fb3" role="status" aria-live="polite"></div>
-        </div>
-
-        <!-- Q4: Short exact answer — best case -->
-        <div class="question-card" id="card-4">
-            <div class="q-meta">
-                <div class="q-number">04</div>
-                <div class="q-type-tag">Short Exact Answer</div>
-            </div>
-            <p class="q-text">
-                The array below is searched for the value <strong>93</strong>.
-            </p>
-            <div class="array-vis">
-                <div class="array-cell">93<span class="idx">0</span></div>
-                <div class="array-cell">12<span class="idx">1</span></div>
-                <div class="array-cell">47<span class="idx">2</span></div>
-                <div class="array-cell">5<span class="idx">3</span></div>
-                <div class="array-cell">61<span class="idx">4</span></div>
-                <div class="array-cell">28<span class="idx">5</span></div>
-                <div class="array-cell">74<span class="idx">6</span></div>
-            </div>
-            <div class="steps-input" style="margin-top:14px">
-                <div class="step-row"><span>(a)</span><input type="text" id="q4a"
-                        aria-label="(a) How many comparisons does the algorithm make"
-                        placeholder="How many comparisons does the algorithm make?"></div>
-                <div class="step-row"><span>(b)</span><input type="text" id="q4b"
-                        aria-label="(b) At which index was 93 found" placeholder="At which index was 93 found?"></div>
-                <div class="step-row"><span>(c)</span><input type="text" id="q4c"
-                        aria-label="(c) Best case or worst case" placeholder="Best case or worst case? (type one)">
-                </div>
-            </div>
-
-            <div class="feedback" id="fb4" role="status" aria-live="polite"></div>
-        </div>
-
-        <!-- Q5: Fill in the blank / short computation -->
-        <div class="question-card" id="card-5">
-            <div class="q-meta">
-                <div class="q-number">05</div>
-                <div class="q-type-tag">Problem Solving</div>
-            </div>
-            <p class="q-text">
-                The array below is searched using sequential search for the value <strong>99</strong>, which does
-                <em>not exist</em> in the array.
+                A sequential search is performed on the array below looking for various targets.
+                For each case, <strong>compute the exact number of comparisons made</strong> and state the
+                resulting <strong>Big-O complexity</strong> in terms of <em>n</em> (where <em>n</em> = 10).
             </p>
             <div class="array-vis">
                 <div class="array-cell">3<span class="idx">0</span></div>
                 <div class="array-cell">17<span class="idx">1</span></div>
-                <div class="array-cell">42<span class="idx">2</span></div>
-                <div class="array-cell">56<span class="idx">3</span></div>
-                <div class="array-cell">71<span class="idx">4</span></div>
+                <div class="array-cell">45<span class="idx">2</span></div>
+                <div class="array-cell">8<span class="idx">3</span></div>
+                <div class="array-cell">92<span class="idx">4</span></div>
+                <div class="array-cell">21<span class="idx">5</span></div>
+                <div class="array-cell">60<span class="idx">6</span></div>
+                <div class="array-cell">5<span class="idx">7</span></div>
+                <div class="array-cell">38<span class="idx">8</span></div>
+                <div class="array-cell">74<span class="idx">9</span></div>
             </div>
-            <p class="q-text" style="margin-top:12px">
-                (a) How many comparisons does the algorithm make?<br>
-                (b) If 99 were at index 0 instead, how many comparisons would be made (<em>best case</em>)?<br>
-                (c) Using Big-O notation, how do we describe the worst-case time complexity of sequential search in
-                general, where <em>n</em> is the number of elements?
+            <ul class="parts-list">
+                <li><span class="part-label">(a)</span> <strong>Best case</strong> — target = 3. How many comparisons are made?</li>
+                <li><span class="part-label">(b)</span> <strong>Worst case</strong> — target = 99 (not in array). How many comparisons are made?</li>
+                <li><span class="part-label">(c)</span> <strong>Average case</strong> — apply the formula C<sub>avg</sub> = (n + 1) / 2 with n = 10. What is the result?</li>
+            </ul>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question-card">
+            <div class="q-meta">
+                <div class="q-number">03</div>
+                <div class="q-type-tag">Problem Solving · Back-Calculation</div>
+            </div>
+            <p class="q-text">
+                A sequential search is run on an unknown array. You are told:
             </p>
-            <div class="steps-input">
-                <div class="step-row"><span>(a)</span><input type="text" id="q5a"
-                        aria-label="(a) Number of comparisons when 99 is missing" placeholder="Number of comparisons">
-                </div>
-                <div class="step-row"><span>(b)</span><input type="text" id="q5b"
-                        aria-label="(b) Comparisons in the best case for a 5-element array"
-                        placeholder="Best-case comparisons for a 5-element array"></div>
-                <div class="step-row"><span>(c)</span><input type="text" id="q5c"
-                        aria-label="(c) Big-O worst-case time complexity" placeholder="Big-O notation"></div>
-            </div>
-
-            <div class="feedback" id="fb5" role="status" aria-live="polite"></div>
+            <ul class="q-text" style="padding-left:24px; margin-top:-8px;">
+                <li>Each comparison takes <strong>5 ms</strong>.</li>
+                <li>An <strong>average-case</strong> search (target always present, uniform distribution)
+                    completed in <strong>27.5 ms</strong>.</li>
+                <li>A subsequent <strong>worst-case</strong> search (target absent) was also timed.</li>
+            </ul>
+            <ul class="parts-list">
+                <li><span class="part-label">(a)</span> How many average-case comparisons were made?</li>
+                <li><span class="part-label">(b)</span> Solve for <em>n</em>: how many elements are in the array?</li>
+                <li><span class="part-label">(c)</span> How long does the worst-case search take (in ms)?</li>
+            </ul>
         </div>
 
-        <button class="check-btn" id="submit-all-btn" onclick="checkAll()"
-            style="width:100%;justify-content:center;padding:14px 22px;font-size:13px;margin-bottom:32px;">
-            Submit All Answers
-        </button>
-
-        <!-- Score -->
-        <div class="score-panel" id="score-panel">
-            <div class="label" style="color:#a09880">Final Score</div>
-            <div class="big" id="score-display">0</div>
-            <div class="out-of">out of 5</div>
-            <div class="remark" id="score-remark"></div>
+        <!-- Q4 -->
+        <div class="question-card">
+            <div class="q-meta">
+                <div class="q-number">04</div>
+                <div class="q-type-tag">Derivation · Average Case</div>
+            </div>
+            <p class="q-text">
+                For a sequential search on an array of <em>n</em> elements where the target is <strong>always present</strong>
+                and equally likely to be at any position, the average number of comparisons is given by the formula:
+            </p>
+            <p class="q-text" style="font-family:'DM Mono',monospace; font-size:15px; text-align:center; letter-spacing:0.04em; margin: 0 0 16px;">
+                C<sub>avg</sub> = (n + 1) / 2
+            </p>
+            <ul class="parts-list">
+                <li><span class="part-label">(a)</span> Apply the formula: what is the average number of comparisons when n = 7?</li>
+                <li><span class="part-label">(b)</span> Apply the formula: what is the average number of comparisons when n = 15?</li>
+                <li><span class="part-label">(c)</span> Why is the average-case complexity still O(n)?</li>
+            </ul>
         </div>
 
-        <!-- Answer Key -->
-        <div class="answer-key">
-            <h2>Answer Key</h2>
-
-            <div class="ak-item">
-                <div class="ak-num">Question 01 — Short Exact Answer</div>
-                <div class="ak-answer">
-                    (a) <strong>3</strong><br>
-                    (b) <strong>2</strong><br>
-                    (c) <strong>average case</strong>
-                </div>
+        <!-- Q5 -->
+        <div class="question-card">
+            <div class="q-meta">
+                <div class="q-number">05</div>
+                <div class="q-type-tag">Problem Solving · Solve for n</div>
             </div>
-
-            <hr class="divider">
-
-            <div class="ak-item">
-                <div class="ak-num">Question 02 — Code · Fill in the Blanks</div>
-                <div class="ak-answer">
-                    (1) <strong>n</strong><br>
-                    (2) <strong>target</strong><br>
-                    (3) <strong>i</strong>
-                </div>
-            </div>
-
-            <hr class="divider">
-
-            <div class="ak-item">
-                <div class="ak-num">Question 03 — Code · Fill in the Blanks</div>
-                <div class="ak-answer">
-                    (1) <strong>5</strong><br>
-                    (2) <strong>arr</strong><br>
-                    (3) <strong>==</strong>
-                </div>
-            </div>
-
-            <hr class="divider">
-
-            <div class="ak-item">
-                <div class="ak-num">Question 04 — Short Exact Answer</div>
-                <div class="ak-answer">
-                    (a) <strong>1</strong><br>
-                    (b) <strong>0</strong><br>
-                    (c) <strong>best case</strong>
-                </div>
-            </div>
-
-            <hr class="divider">
-
-            <div class="ak-item">
-                <div class="ak-num">Question 05 — Problem Solving</div>
-                <div class="ak-answer">
-                    (a) <strong>5</strong><br>
-                    (b) <strong>1</strong><br>
-                    (c) <strong>O(n)</strong>
-                </div>
-            </div>
-
+            <p class="q-text">
+                A sequential search runs on an unknown array. You are given the following facts:
+            </p>
+            <ul class="q-text" style="padding-left:24px; margin-top:-8px;">
+                <li>Each comparison takes <strong>6 ms</strong>.</li>
+                <li>A <strong>worst-case</strong> search (target not present) completed in <strong>72 ms</strong>.</li>
+                <li>A <strong>best-case</strong> search (target at index 0) costs the minimum possible time.</li>
+            </ul>
+            <ul class="parts-list">
+                <li><span class="part-label">(a)</span> How many elements are in the array? (solve for n)</li>
+                <li><span class="part-label">(b)</span> How long does the best-case search take (in ms)?</li>
+                <li><span class="part-label">(c)</span> What is the maximum number of elements the array can have if the worst-case search must stay strictly under 54 ms?</li>
+            </ul>
         </div>
 
     </div>
-
-    <script>
-        let answered = {};
-        let scores = {};
-
-        function updateProgress() {
-            const count = Object.keys(answered).length;
-            document.getElementById('progress-fill').style.width = (count / 5 * 100) + '%';
-            document.getElementById('progress-label').textContent = count + ' of 5 answered';
-            if (count === 5) showScore();
-        }
-
-        function showFeedback(id, score, msg) {
-            const fb = document.getElementById('fb' + id);
-            const card = document.getElementById('card-' + id);
-            const correct = score === 1;
-            fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-            fb.innerHTML = msg;
-            card.className = 'question-card ' + (correct ? 'answered-correct' : 'answered-wrong');
-            answered[id] = true;
-            scores[id] = score;
-            updateProgress();
-        }
-
-        function checkAll() {
-            document.getElementById('submit-all-btn').disabled = true;
-            checkQ1(); checkQ2(); checkQ3(); checkQ4(); checkQ5();
-            const firstWrong = document.querySelector('.question-card.answered-wrong');
-            if (firstWrong) {
-                firstWrong.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
-                document.getElementById('score-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        function checkQ1() {
-            const a = (document.getElementById('q1a').value || '').trim();
-            const b = (document.getElementById('q1b').value || '').trim();
-            const c = (document.getElementById('q1c').value || '').trim().toLowerCase();
-            const aOk = a === '3';
-            const bOk = b === '2';
-            const cOk = c === 'average case' || c === 'average';
-            const allOk = aOk && bOk && cOk;
-            const score = [aOk, bOk, cOk].filter(Boolean).length / 3;
-            showFeedback(1, score,
-                allOk
-                    ? '<strong>All correct!</strong> The algorithm checks index 0 (7), index 1 (19), index 2 (41) — match! That is 3 comparisons. Found at index 2. Not best, not worst — this is the average case.'
-                    : `<strong>Check each part:</strong><br>
-           (a) ${aOk ? '&#10003; 3 comparisons' : '&#10007; Should be <strong>3</strong> — the algorithm checks indices 0, 1, and 2 before finding 41'}<br>
-           (b) ${bOk ? '&#10003; Index 2' : '&#10007; Should be <strong>2</strong> — 41 is the third element, at index 2 (remember: arrays start at 0)'}<br>
-           (c) ${cOk ? '&#10003; Average case' : '&#10007; Should be <strong>average case</strong> — the target is neither at the very start (best) nor missing/at the end (worst), so this falls in between'}`
-            );
-        }
-
-        function checkQ2() {
-            const b1 = (document.getElementById('q2b1').value || '').trim().toLowerCase();
-            const b2 = (document.getElementById('q2b2').value || '').trim().toLowerCase();
-            const b3 = (document.getElementById('q2b3').value || '').trim().toLowerCase();
-            const ok1 = b1 === 'n';
-            const ok2 = b2 === 'target';
-            const ok3 = b3 === 'i';
-            const allOk = ok1 && ok2 && ok3;
-            const score = [ok1, ok2, ok3].filter(Boolean).length / 3;
-            ['q2b1', 'q2b2', 'q2b3'].forEach((id, idx) => {
-                const ok = [ok1, ok2, ok3][idx];
-                document.getElementById(id).className = 'code-blank ' + (ok ? 'blank-correct' : 'blank-wrong');
-            });
-            showFeedback(2, score,
-                allOk
-                    ? '<strong>All three correct!</strong> The function loops from 0 to n, compares each element to target, and returns the index i on a match.'
-                    : `<strong>Check each blank:</strong><br>
-           (1) Loop bound: ${ok1 ? '✓ <strong>n</strong>' : '✗ should be <strong>n</strong> — the array has n elements, so the loop runs n times'}<br>
-           (2) Comparison: ${ok2 ? '✓ <strong>target</strong>' : '✗ should be <strong>target</strong> — you are checking if arr[i] equals the value you are searching for'}<br>
-           (3) Return on match: ${ok3 ? '✓ <strong>i</strong>' : '✗ should be <strong>i</strong> — return the current index so the caller knows where the value was found'}`
-            );
-        }
-
-        function checkQ3() {
-            const b1 = (document.getElementById('q3b1').value || '').trim();
-            const b2 = (document.getElementById('q3b2').value || '').trim().toLowerCase();
-            const b3 = (document.getElementById('q3b3').value || '').trim();
-            const ok1 = b1 === '5';
-            const ok2 = b2 === 'arr';
-            const ok3 = b3 === '==';
-            const allOk = ok1 && ok2 && ok3;
-            const score = [ok1, ok2, ok3].filter(Boolean).length / 3;
-            ['q3b1', 'q3b2', 'q3b3'].forEach((id, idx) => {
-                const ok = [ok1, ok2, ok3][idx];
-                document.getElementById(id).className = 'code-blank ' + (ok ? 'blank-correct' : 'blank-wrong');
-            });
-            showFeedback(3, score,
-                allOk
-                    ? '<strong>All three correct!</strong> The array has 5 elements so n = 5. The array variable arr is passed as the first argument. The operator == checks if result equals -1, meaning not found.'
-                    : `<strong>Check each blank:</strong><br>
-           (1) n = ${ok1 ? '&#10003; <strong>5</strong>' : '&#10007; should be <strong>5</strong> — count the elements in arr[]: there are 5'}<br>
-           (2) First argument: ${ok2 ? '&#10003; <strong>arr</strong>' : '&#10007; should be <strong>arr</strong> — you pass the array itself as the first argument'}<br>
-           (3) Operator: ${ok3 ? '&#10003; <strong>==</strong>' : '&#10007; should be <strong>==</strong> — we are checking if result is equal to -1, so we use the equality operator'}`
-            );
-        }
-
-        function checkQ4() {
-            const a = (document.getElementById('q4a').value || '').trim();
-            const b = (document.getElementById('q4b').value || '').trim();
-            const c = (document.getElementById('q4c').value || '').trim().toLowerCase();
-            const aOk = a === '1';
-            const bOk = b === '0' || b.toLowerCase() === 'index 0';
-            const cOk = c === 'best case' || c === 'best-case' || c === 'best';
-            const allOk = aOk && bOk && cOk;
-            const score = [aOk, bOk, cOk].filter(Boolean).length / 3;
-            showFeedback(4, score,
-                allOk
-                    ? '<strong>All correct!</strong> The algorithm checks index 0 immediately and finds 93 — only 1 comparison, at index 0. Finding the target on the very first check is the best case.'
-                    : `<strong>Check each part:</strong><br>
-           (a) ${aOk ? '&#10003; 1 comparison' : '&#10007; Should be <strong>1</strong> — 93 is at index 0, the very first element checked'}<br>
-           (b) ${bOk ? '&#10003; Index 0' : '&#10007; Should be <strong>0</strong> — 93 is the very first element, so it sits at index 0'}<br>
-           (c) ${cOk ? '&#10003; Best case' : '&#10007; Should be <strong>best case</strong> — finding the target on the first comparison is the least work the algorithm can ever do'}`
-            );
-        }
-
-        function checkQ5() {
-            const a = (document.getElementById('q5a').value || '').trim();
-            const b = (document.getElementById('q5b').value || '').trim().toLowerCase();
-            const c = (document.getElementById('q5c').value || '').trim().toLowerCase().replace(/\s/g, '');
-            const aOk = a === '5';
-            const bOk = b === '1';
-            const cOk = c.includes('o(n)') || c === 'on';
-            const ok = aOk && bOk && cOk;
-            const score = [aOk, bOk, cOk].filter(Boolean).length / 3;
-            showFeedback(5, score,
-                ok
-                    ? '<strong>All three correct!</strong> (a) 5 comparisons — all elements checked since 99 is missing. (b) Best case is 1 comparison — if the target were at index 0. (c) O(n) — linear time in the worst case.'
-                    : `<strong>Check your answers:</strong><br>
-           (a) ${aOk ? '&#10003; 5 comparisons' : '&#10007; Should be <strong>5</strong> — 99 is not in the array so every element is checked once'}<br>
-           (b) ${bOk ? '&#10003; 1 comparison' : '&#10007; Should be <strong>1</strong> — best case is when the target is at index 0, found on the very first check'}<br>
-           (c) ${cOk ? '&#10003; O(n)' : '&#10007; Should be <strong>O(n)</strong> — linear, because in the worst case we touch every element once'}`
-            );
-        }
-
-        function showScore() {
-            const total = Object.values(scores).reduce((a, b) => a + b, 0);
-            const rounded = Math.round(total);
-            const remarks = [
-                'Keep going — review the key and try again!',
-                'A start! Re-read the feedback on each question.',
-                'Getting there. Two more and you\'ve got it.',
-                'Good work! One more to go.',
-                'Almost perfect — so close!',
-                'Perfect score. Well done!'
-            ];
-            document.getElementById('score-display').textContent = Number.isInteger(total) ? total : total.toFixed(1);
-            document.getElementById('score-remark').textContent = remarks[Math.min(rounded, 5)];
-            document.getElementById('score-panel').classList.add('visible');
-            document.querySelector('.answer-key').classList.add('visible');
-        }
-    </script>
+</body>
 
 </html>

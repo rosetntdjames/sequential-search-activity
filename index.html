@@ -118,7 +118,6 @@
             font-size: 16px;
             line-height: 1.65;
             color: var(--ink);
-            margin-bottom: 20px;
         }
 
         .q-text strong {
@@ -158,28 +157,16 @@
             bottom: 3px;
         }
 
-        /* Sub-parts list */
-        .parts-list {
-            list-style: none;
-            margin-top: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .parts-list li {
-            display: flex;
-            gap: 12px;
-            font-size: 15px;
-            line-height: 1.5;
-        }
-
-        .parts-list li .part-label {
+        .formula-block {
             font-family: 'DM Mono', monospace;
-            font-size: 12px;
-            color: var(--muted);
-            min-width: 28px;
-            padding-top: 1px;
+            font-size: 15px;
+            text-align: center;
+            letter-spacing: 0.04em;
+            margin: 16px 0;
+            background: var(--tag-bg);
+            padding: 10px 16px;
+            border-radius: 3px;
+            display: inline-block;
         }
     </style>
 </head>
@@ -194,15 +181,16 @@
             <p class="subtitle" style="margin-top:4px;">by: Dean James Salvacion</p>
         </header>
 
-        <!-- Q1 -->
+        <!-- Q1: Trace & Cost -->
         <div class="question-card">
             <div class="q-meta">
                 <div class="q-number">01</div>
-                <div class="q-type-tag">Calculation · Trace &amp; Cost</div>
+                <div class="q-type-tag">Trace &amp; Cost</div>
             </div>
             <p class="q-text">
                 A sequential search is performed on the array below, looking for the value <strong>62</strong>.
-                Each comparison takes <strong>4 ms</strong> to execute.
+                Each comparison takes <strong>4 ms</strong>. How many comparisons are made, and what is the total time
+                (in ms) to find it?
             </p>
             <div class="array-vis">
                 <div class="array-cell">11<span class="idx">0</span></div>
@@ -214,104 +202,75 @@
                 <div class="array-cell">91<span class="idx">6</span></div>
                 <div class="array-cell">4<span class="idx">7</span></div>
             </div>
-            <ul class="parts-list">
-                <li><span class="part-label">(a)</span> How many comparisons are made to find 62?</li>
-                <li><span class="part-label">(b)</span> What is the total time (in ms) to find 62?</li>
-                <li><span class="part-label">(c)</span> What is the total time (in ms) if 62 were <strong>not</strong> in the array?</li>
-            </ul>
         </div>
 
-        <!-- Q2 -->
+        <!-- Q2: Summation · Worst Case -->
         <div class="question-card">
             <div class="q-meta">
                 <div class="q-number">02</div>
-                <div class="q-type-tag">Proof · Case Analysis</div>
+                <div class="q-type-tag">Summation · Worst Case</div>
             </div>
             <p class="q-text">
-                A sequential search is performed on the array below looking for various targets.
-                For each case, <strong>compute the exact number of comparisons made</strong> and state the
-                resulting <strong>Big-O complexity</strong> in terms of <em>n</em> (where <em>n</em> = 10).
+                A sequential search is performed on the array below looking for the value <strong>99</strong>,
+                which is <strong>not in the array</strong>. Each comparison counts as 1 basic operation.
+                Using summation notation, express the total number of comparisons made, evaluate the sum, and state the
+                resulting Big-O complexity.
             </p>
             <div class="array-vis">
-                <div class="array-cell">3<span class="idx">0</span></div>
-                <div class="array-cell">17<span class="idx">1</span></div>
-                <div class="array-cell">45<span class="idx">2</span></div>
-                <div class="array-cell">8<span class="idx">3</span></div>
-                <div class="array-cell">92<span class="idx">4</span></div>
-                <div class="array-cell">21<span class="idx">5</span></div>
-                <div class="array-cell">60<span class="idx">6</span></div>
-                <div class="array-cell">5<span class="idx">7</span></div>
-                <div class="array-cell">38<span class="idx">8</span></div>
-                <div class="array-cell">74<span class="idx">9</span></div>
+                <div class="array-cell">14<span class="idx">0</span></div>
+                <div class="array-cell">33<span class="idx">1</span></div>
+                <div class="array-cell">57<span class="idx">2</span></div>
+                <div class="array-cell">9<span class="idx">3</span></div>
+                <div class="array-cell">81<span class="idx">4</span></div>
+                <div class="array-cell">26<span class="idx">5</span></div>
             </div>
-            <ul class="parts-list">
-                <li><span class="part-label">(a)</span> <strong>Best case</strong> — target = 3. How many comparisons are made?</li>
-                <li><span class="part-label">(b)</span> <strong>Worst case</strong> — target = 99 (not in array). How many comparisons are made?</li>
-                <li><span class="part-label">(c)</span> <strong>Average case</strong> — apply the formula C<sub>avg</sub> = (n + 1) / 2 with n = 10. What is the result?</li>
-            </ul>
         </div>
 
-        <!-- Q3 -->
+        <!-- Q3: Back-calculation -->
         <div class="question-card">
             <div class="q-meta">
                 <div class="q-number">03</div>
-                <div class="q-type-tag">Problem Solving · Back-Calculation</div>
+                <div class="q-type-tag">Back-Calculation · Solve for n</div>
             </div>
             <p class="q-text">
-                A sequential search is run on an unknown array. You are told:
+                A sequential search is run on an unknown array where each comparison takes <strong>5 ms</strong>.
+                An average-case search (target always present, uniform distribution) completed in <strong>27.5
+                    ms</strong>.
+                Using the formula C<sub>avg</sub> = (n + 1) / 2, solve for <em>n</em> — how many elements are in the
+                array?
             </p>
-            <ul class="q-text" style="padding-left:24px; margin-top:-8px;">
-                <li>Each comparison takes <strong>5 ms</strong>.</li>
-                <li>An <strong>average-case</strong> search (target always present, uniform distribution)
-                    completed in <strong>27.5 ms</strong>.</li>
-                <li>A subsequent <strong>worst-case</strong> search (target absent) was also timed.</li>
-            </ul>
-            <ul class="parts-list">
-                <li><span class="part-label">(a)</span> How many average-case comparisons were made?</li>
-                <li><span class="part-label">(b)</span> Solve for <em>n</em>: how many elements are in the array?</li>
-                <li><span class="part-label">(c)</span> How long does the worst-case search take (in ms)?</li>
-            </ul>
         </div>
 
-        <!-- Q4 -->
+        <!-- Q4: Formula Application + Big-O Proof -->
         <div class="question-card">
             <div class="q-meta">
                 <div class="q-number">04</div>
-                <div class="q-type-tag">Derivation · Average Case</div>
+                <div class="q-type-tag">Formula Application · Big-O Proof</div>
             </div>
             <p class="q-text">
-                For a sequential search on an array of <em>n</em> elements where the target is <strong>always present</strong>
-                and equally likely to be at any position, the average number of comparisons is given by the formula:
+                For a sequential search on an array of <em>n</em> = <strong>15</strong> elements where the target is
+                always present
+                and equally likely to be at any position, use the formula below to compute the average number of
+                comparisons.
+                Then, using the formal Big-O definition T(n) ≤ c · g(n) for all n ≥ n<sub>0</sub>,
+                prove that C<sub>avg</sub>(n) ∈ O(n).
             </p>
-            <p class="q-text" style="font-family:'DM Mono',monospace; font-size:15px; text-align:center; letter-spacing:0.04em; margin: 0 0 16px;">
-                C<sub>avg</sub> = (n + 1) / 2
-            </p>
-            <ul class="parts-list">
-                <li><span class="part-label">(a)</span> Apply the formula: what is the average number of comparisons when n = 7?</li>
-                <li><span class="part-label">(b)</span> Apply the formula: what is the average number of comparisons when n = 15?</li>
-                <li><span class="part-label">(c)</span> Why is the average-case complexity still O(n)?</li>
-            </ul>
+            <div style="text-align:center;">
+                <span class="formula-block">C<sub>avg</sub> = (n + 1) / 2</span>
+            </div>
         </div>
 
-        <!-- Q5 -->
+        <!-- Q5: Back-calculation with constraint -->
         <div class="question-card">
             <div class="q-meta">
                 <div class="q-number">05</div>
-                <div class="q-type-tag">Problem Solving · Solve for n</div>
+                <div class="q-type-tag">Solve for n · Time Constraint</div>
             </div>
             <p class="q-text">
-                A sequential search runs on an unknown array. You are given the following facts:
+                A sequential search runs on an unknown array where each comparison takes <strong>6 ms</strong>,
+                and the worst-case search (target not present) must complete in <strong>strictly under 54 ms</strong>.
+                What is the maximum number of elements the array can have?
             </p>
-            <ul class="q-text" style="padding-left:24px; margin-top:-8px;">
-                <li>Each comparison takes <strong>6 ms</strong>.</li>
-                <li>A <strong>worst-case</strong> search (target not present) completed in <strong>72 ms</strong>.</li>
-                <li>A <strong>best-case</strong> search (target at index 0) costs the minimum possible time.</li>
-            </ul>
-            <ul class="parts-list">
-                <li><span class="part-label">(a)</span> How many elements are in the array? (solve for n)</li>
-                <li><span class="part-label">(b)</span> How long does the best-case search take (in ms)?</li>
-                <li><span class="part-label">(c)</span> What is the maximum number of elements the array can have if the worst-case search must stay strictly under 54 ms?</li>
-            </ul>
         </div>
 
     </div>
